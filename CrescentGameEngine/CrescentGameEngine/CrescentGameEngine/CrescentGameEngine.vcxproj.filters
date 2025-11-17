@@ -13,10 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\Script">
+      <UniqueIdentifier>{0bb4ad64-e34e-4b5e-a3f1-29748b719f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Script\include">
+      <UniqueIdentifier>{464885c5-7f58-42e3-bf99-54795af337ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Script\include\editor">
+      <UniqueIdentifier>{3d0ed86a-0c53-40b2-a2a2-c370fefe19f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Script\include\editor\EditorApp.h">
+      <Filter>源文件\Script\include\editor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

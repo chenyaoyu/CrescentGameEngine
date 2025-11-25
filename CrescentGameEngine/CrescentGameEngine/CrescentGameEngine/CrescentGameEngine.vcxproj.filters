@@ -19,18 +19,33 @@
     <Filter Include="源文件\Script\include">
       <UniqueIdentifier>{464885c5-7f58-42e3-bf99-54795af337ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Script\include\editor">
+    <Filter Include="源文件\Script\src">
+      <UniqueIdentifier>{396c131f-aeae-4ffb-9065-e0e1c8ae7798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Script\src\Editor">
+      <UniqueIdentifier>{6ff0dcd3-e8b7-430b-a88d-edc5010bc2e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Script\include\Editor">
       <UniqueIdentifier>{3d0ed86a-0c53-40b2-a2a2-c370fefe19f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Script\main.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Script\src\main.cpp">
+      <Filter>源文件\Script\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Script\src\Editor\EditorApp.cc">
+      <Filter>源文件\Script\src\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Script\include\editor\EditorApp.h">
-      <Filter>源文件\Script\include\editor</Filter>
+    <ClInclude Include="Script\include\Editor\EditorApp.h">
+      <Filter>源文件\Script\include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\include\Editor\QueueFamilyIndices.h">
+      <Filter>源文件\Script\include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\include\Editor\EditorAppConst.h">
+      <Filter>源文件\Script\include\Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

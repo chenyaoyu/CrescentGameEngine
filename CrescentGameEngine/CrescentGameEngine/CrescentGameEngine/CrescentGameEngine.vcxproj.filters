@@ -28,6 +28,9 @@
     <Filter Include="源文件\Script\include\Editor">
       <UniqueIdentifier>{3d0ed86a-0c53-40b2-a2a2-c370fefe19f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Script\include\Common">
+      <UniqueIdentifier>{020b978f-f873-4fa7-97f2-29539c074852}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Script\src\main.cpp">
@@ -45,6 +48,12 @@
       <Filter>源文件\Script\include\Editor</Filter>
     </ClInclude>
     <ClInclude Include="Script\include\Editor\EditorAppConst.h">
+      <Filter>源文件\Script\include\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\include\Common\CommonHeader.h">
+      <Filter>源文件\Script\include\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Script\include\Editor\SwapChainSupportDetails.h">
       <Filter>源文件\Script\include\Editor</Filter>
     </ClInclude>
   </ItemGroup>

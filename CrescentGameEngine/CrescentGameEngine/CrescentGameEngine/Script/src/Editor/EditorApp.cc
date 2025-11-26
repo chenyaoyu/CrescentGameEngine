@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <vector>
 #include <optional>
+#include <set>
 
 /// <summary>
 /// 验证层日志输出
@@ -161,6 +162,7 @@ void EditorApp::pickPhysicalDevice() {
 QueueFamilyIndices EditorApp::findQueueFamilies(VkPhysicalDevice device) {
 	QueueFamilyIndices indices;
 
+	//  从物理设备中获取所支持的队列簇
 	uint32_t queueFamilyCount = 0;
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 
@@ -169,10 +171,12 @@ QueueFamilyIndices EditorApp::findQueueFamilies(VkPhysicalDevice device) {
 
 	int i = 0;
 	for (const auto& queueFamily : queueFamilies) {
+		// 队列族是否支持图形操作
 		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
 			indices.graphicsFamily = i;
 		}
 
+		// 查询某个物理设备是否支持通过指定的队列族向窗口表面（VkSurfaceKHR）提交呈现操作。
 		VkBool32 presentSupport = false;
 		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
 
@@ -184,7 +188,7 @@ QueueFamilyIndices EditorApp::findQueueFamilies(VkPhysicalDevice device) {
 			break;
 		}
 
-		i++;
+		++i;
 	}
 
 	return indices;
@@ -200,15 +204,15 @@ bool EditorApp::isDeviceSuitable(VkPhysicalDevice device) {
 
 	return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && deviceFeatures.geometryShader;
 
-	//QueueFamilyIndices indices = findQueueFamilies(device);
+	QueueFamilyIndices indices = findQueueFamilies(device);
 
-	//bool extensionsSupported = checkDeviceExtensionSupport(device);
+	bool extensionsSupported = checkDeviceExtensionSupport(device);
 
-	//bool swapChainAdequate = false;
-	//if (extensionsSupported) {
-	//	SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
-	//	swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-	//}
+	bool swapChainAdequate = false;
+	if (extensionsSupported) {
+		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
+		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+	}
 
 	//VkPhysicalDeviceFeatures supportedFeatures;
 	//vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
@@ -254,3 +258,57 @@ void EditorApp::cleanup() {
 	glfwTerminate();
 }
 
+/// <summary>
+/// 筛选能支持指定拓展的物理设备
+/// </summary>
+/// <param name="device"></param>
+/// <returns></returns>
+bool EditorApp::checkDeviceExtensionSupport(VkPhysicalDevice device) {
+	uint32_t extensionCount;
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+
+	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+	std::set<std::string> requiredExtensions(EditorAppConst::deviceExtensions.begin(), EditorAppConst::deviceExtensions.end());
+
+	for (const auto& extension : availableExtensions) {
+		requiredExtensions.erase(extension.extensionName);
+	}
+
+	return requiredExtensions.empty();
+}
+
+/// <summary>
+/// 查询目标物理设备锁支持的surface格式和presentation模式信息
+/// </summary>
+/// <param name="device"></param>
+/// <returns></returns>
+SwapChainSupportDetails EditorApp::querySwapChainSupport(VkPhysicalDevice device) {
+	SwapChainSupportDetails details;
+
+	// 查询需要物理设备mPhysicalDevice和表面mSurface作为参数，查询结果保存在结构体VkSurfaceCapabilitiesKHR中
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+
+	// 查询支持的surface格式的个数
+	uint32_t formatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+
+	if (formatCount != 0) {
+		details.formats.resize(formatCount);
+		// 查询交换链锁所支持的surface格式，并填充到details.formats这个VkSurfaceFormatKHR类型的数组。
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+	}
+
+	uint32_t presentModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+
+	// 查询支持的presentation模式的个数
+	if (presentModeCount != 0) {
+		details.presentModes.resize(presentModeCount);
+		// 查询交换链锁所支持的presentation模式，并填充到details.presentModes这个VkPresentModeKHR类型的数组。
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
+	}
+
+	return details;
+}

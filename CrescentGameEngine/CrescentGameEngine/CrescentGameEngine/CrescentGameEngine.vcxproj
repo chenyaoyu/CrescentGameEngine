@@ -151,9 +151,11 @@
     <ClCompile Include="Script\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Script\include\Common\CommonHeader.h" />
     <ClInclude Include="Script\include\Editor\EditorApp.h" />
     <ClInclude Include="Script\include\Editor\EditorAppConst.h" />
     <ClInclude Include="Script\include\Editor\QueueFamilyIndices.h" />
+    <ClInclude Include="Script\include\Editor\SwapChainSupportDetails.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

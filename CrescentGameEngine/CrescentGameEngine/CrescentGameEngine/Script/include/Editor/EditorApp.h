@@ -1,9 +1,9 @@
 #ifndef EDITOR_APP_H
 #define EDITOR_APP_H
 
-#define GLFW_INCLUDE_VULKAN
+#include "Common/CommonHeader.h"
 #include "Editor/QueueFamilyIndices.h"
-#include <GLFW/glfw3.h>
+#include "Editor/SwapChainSupportDetails.h"
 
 class EditorApp {
 public:
@@ -88,6 +88,18 @@ private:
 
 	void mainLoop();
 	void cleanup();
+	/// <summary>
+	/// 筛选能支持指定拓展的物理设备
+	/// </summary>
+	/// <param name="device"></param>
+	/// <returns></returns>
+	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+	/// <summary>
+	/// 查询目标物理设备锁支持的surface格式和presentation模式信息
+	/// </summary>
+	/// <param name="device"></param>
+	/// <returns></returns>
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 
 };
 

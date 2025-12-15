@@ -31,6 +31,25 @@ private:
 	/// vulkan surface实例
 	/// </summary>
 	VkSurfaceKHR surface;
+	/// <summary>
+	/// 渲染队列
+	/// </summary>
+	VkQueue graphicsQueue;
+	/// <summary>
+	/// 提交呈现命令队列
+	/// </summary>
+	VkQueue presentQueue;
+	/// <summary>
+	/// 交换链拓展的实例
+	/// </summary>
+	VkSwapchainKHR swapChain;
+	/// <summary>
+	/// 图形数据的对象列表
+	/// VkImage：一个用于表示图形数据的对象，它是图像数据的底层表示，负责存储图像的元数据（如宽度、高度、格式等）但不直接存储像素数据
+	/// </summary>
+	std::vector<VkImage> swapChainImages;
+	VkFormat swapChainImageFormat;
+	VkExtent2D swapChainExtent;
 
 	/// <summary>
 	/// 初始化glfw窗口
@@ -85,6 +104,10 @@ private:
 
 	// 创建逻辑设备
 	void createLogicalDevice();
+	/// <summary>
+	/// 创建交换链
+	/// </summary>
+	void createSwapChain();
 
 	void mainLoop();
 	void cleanup();
@@ -101,6 +124,24 @@ private:
 	/// <returns></returns>
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 
+	/// <summary>
+	/// 根据物理设备的所有表面格式拓展列表formats中过滤出指定的像素格式和色彩空间的表面格式拓展。
+	/// </summary>
+	/// <param name="availableFormats"></param>
+	/// <returns></returns>
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+	/// <summary>
+	/// 根据物理设备的所有提交呈现命名模式拓展中过滤指定模式的提交呈现命名模式拓展。
+	/// </summary>
+	/// <param name="availablePresentModes"></param>
+	/// <returns></returns>
+	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+	/// <summary>
+	/// 根据物理设备的表面能力的画面尺寸，创建二维尺寸VkExtent2D。
+	/// </summary>
+	/// <param name="capabilities"></param>
+	/// <returns></returns>
+	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 };
 
 #endif

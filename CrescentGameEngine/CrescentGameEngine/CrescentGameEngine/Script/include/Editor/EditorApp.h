@@ -4,6 +4,7 @@
 #include "Common/CommonHeader.h"
 #include "Editor/QueueFamilyIndices.h"
 #include "Editor/SwapChainSupportDetails.h"
+#include <string>
 
 class EditorApp {
 public:
@@ -48,8 +49,31 @@ private:
 	/// VkImage：一个用于表示图形数据的对象，它是图像数据的底层表示，负责存储图像的元数据（如宽度、高度、格式等）但不直接存储像素数据
 	/// </summary>
 	std::vector<VkImage> swapChainImages;
+	std::vector<VkFramebuffer> swapChainFramebuffers;
+	/// <summary>
+	/// 交换链图像格式
+	/// </summary>
 	VkFormat swapChainImageFormat;
+	/// <summary>
+	/// 交换链图像尺寸
+	/// </summary>
 	VkExtent2D swapChainExtent;
+	/// <summary>
+	/// 交换链图像视图
+	/// </summary>
+	std::vector<VkImageView> swapChainImageViews;
+
+	VkRenderPass renderPass;
+
+	VkPipelineLayout pipelineLayout;
+	VkPipeline graphicsPipeline;
+
+	VkCommandPool commandPool;
+	VkCommandBuffer commandBuffer;
+
+	VkSemaphore imageAvailableSemaphore;
+	VkSemaphore renderFinishedSemaphore;
+	VkFence inFlightFence;
 
 	/// <summary>
 	/// 初始化glfw窗口
@@ -107,7 +131,7 @@ private:
 	/// <summary>
 	/// 创建交换链
 	/// </summary>
-	void createSwapChain();
+	void createSwapChain(bool enableVsync);
 
 	void mainLoop();
 	void cleanup();
@@ -142,6 +166,37 @@ private:
 	/// <param name="capabilities"></param>
 	/// <returns></returns>
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+	/// <summary>
+	/// 创建图像视图
+	/// </summary>
+	void createImageViews();
+	/// <summary>
+	/// 
+	/// </summary>
+	void createFramebuffers();
+	/// <summary>
+	/// 创建渲染管道
+	/// </summary>
+	void createRenderPass();
+	/// <summary>
+	/// 创建渲染管线
+	/// </summary>
+	void createGraphicsPipeline();
+	/// <summary>
+	/// 临时的读取文件
+	/// </summary>
+	static std::vector<char> readFile(const std::string& filename);
+	/// <summary>
+	/// 根据shader的二进制数据创建shadermode.
+	/// </summary>
+	/// <param name="code"></param>
+	/// <returns></returns>
+	VkShaderModule createShaderModule(const std::vector<char>& code);
+	void drawFrame();
+	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+	void createCommandPool();
+	void createCommandBuffer();
+	void createSyncObjects();
 };
 
 #endif

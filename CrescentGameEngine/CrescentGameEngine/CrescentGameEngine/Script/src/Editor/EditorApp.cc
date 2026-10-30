@@ -519,10 +519,10 @@ void EditorApp::createGraphicsPipeline() {
 	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
 	VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
-	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertShaderStageInfo.module = vertShaderModule;
-	vertShaderStageInfo.pName = "main";
+	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;// VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO表明创建VkPipelineShaderStageCreateInfo的用意是构建shader阶段的创建信息。
+	vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT; // 表示shader阶段，VK_SHADER_STAGE_VERTEX_BIT是顶点着色器，VK_SHADER_STAGE_FRAGMENT_BIT是片元着色器。
+	vertShaderStageInfo.module = vertShaderModule; // 为shader的spr-v编码的字节码。
+	vertShaderStageInfo.pName = "main";// 为shader代码的入口名
 
 	VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
 	fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -530,6 +530,7 @@ void EditorApp::createGraphicsPipeline() {
 	fragShaderStageInfo.module = fragShaderModule;
 	fragShaderStageInfo.pName = "main";
 
+	// 定义着色器阶段
 	VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
